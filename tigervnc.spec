@@ -2,7 +2,7 @@
 
 Name:           tigervnc
 Version:        1.9.0
-Release:        3
+Release:        4
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -34,34 +34,26 @@ BuildRequires:  openssl-devel mesa-libGL-devel freetype-devel desktop-file-utils
 Requires(post): coreutils
 Requires(postun):coreutils
 
-Requires:       hicolor-icon-theme
-Requires:       tigervnc-license
-Requires:       tigervnc-icons
+Requires:       hicolor-icon-theme %{name}-help
+
+Provides: license icons
+Obsoletes: license icons
 
 %description
-Virtual Network Computing (VNC) is a remote display system which
-allows you to view a computing 'desktop' environment not only on the
-machine where it is running, but from anywhere on the Internet and
-from a wide variety of machine architectures.  This package contains a
-client which will allow you to connect to other desktops running a VNC
-server.
+This package provides client for Virtual Network Computing (VNC), with which
+you can access any other desktops running a VNC server.
 
 %package server
 Summary:        A TigerVNC server
-Requires:       perl-interpreter
-Requires:       tigervnc-server-minimal
-Requires:       xorg-x11-xauth
-Requires:       xorg-x11-xinit
+Requires:       perl-interpreter tigervnc-server-minimal xorg-x11-xauth xorg-x11-xinit %{name}-help
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 Requires(post): systemd
 
 %description server
-The VNC system allows you to access the same desktop from a wide
-variety of platforms.  This package includes set of utilities
-which make usage of TigerVNC server more user friendly. It also
-contains x0vncserver program which can export your active
+This package provides full installaion of TigerCNC and utilities that
+make access more convenient. For example, you can export your active
 X session.
 
 %package server-minimal
@@ -71,19 +63,15 @@ Requires(preun): systemd
 Requires(postun): systemd
 Requires(post): systemd
 
-Requires:       mesa-dri-drivers, xkeyboard-config, xorg-x11-xkb-utils
-Requires:       tigervnc-license
+Requires:       mesa-dri-drivers, xkeyboard-config, xorg-x11-xkb-utils %{name} %{name}-help
 
 %description server-minimal
-The VNC system allows you to access the same desktop from a wide
-variety of platforms. This package contains minimal installation
-of TigerVNC server, allowing others to access the desktop on your
-machine.
+This package provides minimal installation of TigerVNC, with which
+other people can access your desktop on your machine.
 
 %package server-module
 Summary:        TigerVNC module to Xorg
-Requires:       xorg-x11-server-Xorg %(xserver-sdk-abi-requires ansic) %(xserver-sdk-abi-requires videodrv)
-Requires:       tigervnc-license
+Requires:       xorg-x11-server-Xorg %(xserver-sdk-abi-requires ansic) %(xserver-sdk-abi-requires videodrv) %{name}
 
 %description server-module
 This package contains libvnc.so module to X server, allowing others
@@ -91,26 +79,18 @@ to access the desktop on your machine.
 
 %package server-applet
 Summary:        Java TigerVNC viewer applet for TigerVNC server
-Requires:       tigervnc-server, java, jpackage-utils
+Requires:       tigervnc-server, java, jpackage-utils, %{name}-help
 BuildArch:      noarch
 
 %description server-applet
-The Java TigerVNC viewer applet for web browsers. Install this package to allow
-clients to use web browser when connect to the TigerVNC server.
+If you want to use web browser in clients, please install this package.
 
-%package license
-Summary:        License of TigerVNC suite
-BuildArch:      noarch
+%package help
+Summary:       Documents for TigerVNC
+BuildArch:     noarch
 
-%description license
-This package contains license of the TigerVNC suite
-
-%package icons
-Summary:        Icons for TigerVNC viewer
-BuildArch:      noarch
-
-%description icons
-This package contains icons for TigerVNC viewer
+%description help
+This package provide manual for %{name}, server and server-minimal packages.
 
 %prep
 %setup -q
@@ -120,9 +100,9 @@ pushd unix/xserver
 for all in `find . -type f -perm -001`; do
         chmod -x "$all"
 done
-%patch100 -p1 -b .xserver120-rebased
 popd
 
+%patch100 -p1 -b .xserver120-rebased
 # Synchronise manpages and --help output (bug #980870).
 %patch1 -p1 -b .manpages
 
@@ -232,7 +212,9 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %doc README.rst
 %{_bindir}/vncviewer
 %{_datadir}/applications/*
-%{_mandir}/man1/vncviewer.1*
+%license LICENCE.TXT
+%{_datadir}/icons/hicolor/*/apps/*
+
 
 %files server
 %config(noreplace) %{_sysconfdir}/sysconfig/vncservers
@@ -241,30 +223,27 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %{_unitdir}/xvnc.socket
 %{_bindir}/x0vncserver
 %{_bindir}/vncserver
-%{_mandir}/man1/vncserver.1*
-%{_mandir}/man1/x0vncserver.1*
 
 %files server-minimal
 %{_bindir}/vncconfig
 %{_bindir}/vncpasswd
 %{_bindir}/Xvnc
-%{_mandir}/man1/Xvnc.1*
-%{_mandir}/man1/vncpasswd.1*
-%{_mandir}/man1/vncconfig.1*
 
 %files server-module
 %{_libdir}/xorg/modules/extensions/libvnc.so
 %config %{_sysconfdir}/X11/xorg.conf.d/10-libvnc.conf
 
 %files server-applet
-%doc java/com/tigervnc/vncviewer/README
 %{_datadir}/vnc/classes/*
 
-%files license
-%license LICENCE.TXT
-
-%files icons
-%{_datadir}/icons/hicolor/*/apps/*
+%files help
+%{_mandir}/man1/vncviewer.1*
+%{_mandir}/man1/vncserver.1*
+%{_mandir}/man1/x0vncserver.1*
+%{_mandir}/man1/Xvnc.1*
+%{_mandir}/man1/vncpasswd.1*
+%{_mandir}/man1/vncconfig.1*
+%doc java/com/tigervnc/vncviewer/README
 
 %changelog
 * Wed Jul 18 2018 openEuler Buildteam <buildteam@openeuler.org> - 1.9.0-4

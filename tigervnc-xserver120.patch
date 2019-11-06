@@ -1,6 +1,6 @@
-diff -up xserver/configure.ac.xserver116-rebased xserver/configure.ac
---- xserver/configure.ac.xserver116-rebased	2016-09-29 13:14:45.595441590 +0200
-+++ xserver/configure.ac	2016-09-29 13:14:45.631442006 +0200
+diff -up a/unix/xserver/configure.ac.xserver116-rebased a/unix/xserver/configure.ac
+--- a/unix/xserver/configure.ac.xserver116-rebased	2016-09-29 13:14:45.595441590 +0200
++++ a/unix/xserver/configure.ac	2016-09-29 13:14:45.631442006 +0200
 @@ -74,6 +74,7 @@ dnl forcing an entire recompile.x
  AC_CONFIG_HEADERS(include/version-config.h)
 
@@ -45,9 +45,9 @@ diff -up xserver/configure.ac.xserver116-rebased xserver/configure.ac
  hw/xnest/Makefile
  hw/xnest/man/Makefile
  hw/xwin/Makefile
-diff -up xserver/hw/Makefile.am.xserver116-rebased xserver/hw/Makefile.am
---- xserver/hw/Makefile.am.xserver116-rebased	2016-09-29 13:14:45.601441659 +0200
-+++ xserver/hw/Makefile.am	2016-09-29 13:14:45.631442006 +0200
+diff -up a/unix/xserver/hw/Makefile.am.xserver116-rebased a/unix/xserver/hw/Makefile.am
+--- a/unix/xserver/hw/Makefile.am.xserver116-rebased	2016-09-29 13:14:45.601441659 +0200
++++ a/unix/xserver/hw/Makefile.am	2016-09-29 13:14:45.631442006 +0200
 @@ -38,7 +38,8 @@ SUBDIRS =			\
  	$(DMX_SUBDIRS)		\
  	$(KDRIVE_SUBDIRS)	\
@@ -58,10 +58,10 @@ diff -up xserver/hw/Makefile.am.xserver116-rebased xserver/hw/Makefile.am
 
  DIST_SUBDIRS = dmx xfree86 vfb xnest xwin xquartz kdrive xwayland
 
-diff --git xserver/mi/miinitext.c xserver/mi/miinitext.c
+diff --git a/unix/xserver/mi/miinitext.c a/unix/xserver/mi/miinitext.c
 index 5596e21..003fc3c 100644
---- xserver/mi/miinitext.c
-+++ xserver/mi/miinitext.c
+--- a/unix/xserver/mi/miinitext.c
++++ a/unix/xserver/mi/miinitext.c
 @@ -107,8 +107,15 @@ SOFTWARE.
  #include "os.h"
  #include "globals.h"
@@ -78,8 +78,8 @@ index 5596e21..003fc3c 100644
      {GEExtensionInit, "Generic Event Extension", &noGEExtension},
      {ShapeExtensionInit, "SHAPE", NULL},
  #ifdef MITSHM
---- xserver/include/os.h~	2016-10-03 09:07:29.000000000 +0200
-+++ xserver/include/os.h	2016-10-03 14:13:00.013654506 +0200
+--- a/unix/xserver/include/os.h~	2016-10-03 09:07:29.000000000 +0200
++++ a/unix/xserver/include/os.h	2016-10-03 14:13:00.013654506 +0200
 @@ -621,7 +621,7 @@
  extern _X_EXPORT void
  LogClose(enum ExitCode error);
