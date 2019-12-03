@@ -2,7 +2,7 @@
 
 Name:           tigervnc
 Version:        1.9.0
-Release:        4
+Release:        5
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -206,7 +206,9 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %systemd_preun xvnc.socket
 
 %postun server
-%systemd_postun
+%systemd_postun vncserver.service
+%systemd_postun xvnc.service
+%systemd_postun xvnc.socket
 
 %files -f %{name}.lang
 %doc README.rst
@@ -246,5 +248,8 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %doc java/com/tigervnc/vncviewer/README
 
 %changelog
+* Tue Oct 29 2019 openEuler Buildteam <buildteam@openeuler.org> - 1.9.0-5
+- fix missing arguments after systemd_postun
+
 * Wed Jul 18 2018 openEuler Buildteam <buildteam@openeuler.org> - 1.9.0-4
 - Package init
