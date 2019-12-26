@@ -2,7 +2,7 @@
 
 Name:           tigervnc
 Version:        1.9.0
-Release:        5
+Release:        6
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -34,10 +34,10 @@ BuildRequires:  openssl-devel mesa-libGL-devel freetype-devel desktop-file-utils
 Requires(post): coreutils
 Requires(postun):coreutils
 
-Requires:       hicolor-icon-theme %{name}-help
+Requires:       hicolor-icon-theme 
 
-Provides: license icons
-Obsoletes: license icons
+Provides:  	%{name}-license = %{name}-%{release} %{name}-icons = %{name}-%{release}
+Obsoletes: 	%{name}-license < %{name}-%{release} %{name}-icons < %{name}-%{release}
 
 %description
 This package provides client for Virtual Network Computing (VNC), with which
@@ -45,7 +45,7 @@ you can access any other desktops running a VNC server.
 
 %package server
 Summary:        A TigerVNC server
-Requires:       perl-interpreter tigervnc-server-minimal xorg-x11-xauth xorg-x11-xinit %{name}-help
+Requires:       perl-interpreter tigervnc-server-minimal xorg-x11-xauth xorg-x11-xinit 
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
@@ -63,7 +63,7 @@ Requires(preun): systemd
 Requires(postun): systemd
 Requires(post): systemd
 
-Requires:       mesa-dri-drivers, xkeyboard-config, xorg-x11-xkb-utils %{name} %{name}-help
+Requires:       mesa-dri-drivers, xkeyboard-config, xorg-x11-xkb-utils %{name} 
 
 %description server-minimal
 This package provides minimal installation of TigerVNC, with which
@@ -79,18 +79,13 @@ to access the desktop on your machine.
 
 %package server-applet
 Summary:        Java TigerVNC viewer applet for TigerVNC server
-Requires:       tigervnc-server, java, jpackage-utils, %{name}-help
+Requires:       tigervnc-server, java, jpackage-utils
 BuildArch:      noarch
 
 %description server-applet
 If you want to use web browser in clients, please install this package.
 
-%package help
-Summary:       Documents for TigerVNC
-BuildArch:     noarch
-
-%description help
-This package provide manual for %{name}, server and server-minimal packages.
+%package_help
 
 %prep
 %setup -q
@@ -211,7 +206,9 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %systemd_postun xvnc.socket
 
 %files -f %{name}.lang
+%defattr(-,root,root)
 %doc README.rst
+%license LICENCE.TXT
 %{_bindir}/vncviewer
 %{_datadir}/applications/*
 %license LICENCE.TXT
@@ -219,35 +216,41 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 
 
 %files server
+%defattr(-,root,root)
 %config(noreplace) %{_sysconfdir}/sysconfig/vncservers
+%{_bindir}/vncserver
+%{_bindir}/x0vncserver
 %{_unitdir}/vncserver@.service
 %{_unitdir}/xvnc@.service
 %{_unitdir}/xvnc.socket
-%{_bindir}/x0vncserver
-%{_bindir}/vncserver
 
 %files server-minimal
+%defattr(-,root,root)
 %{_bindir}/vncconfig
 %{_bindir}/vncpasswd
 %{_bindir}/Xvnc
 
 %files server-module
-%{_libdir}/xorg/modules/extensions/libvnc.so
+%defattr(-,root,root)
 %config %{_sysconfdir}/X11/xorg.conf.d/10-libvnc.conf
+%{_libdir}/xorg/modules/extensions/libvnc.so
 
 %files server-applet
+%defattr(-,root,root)
 %{_datadir}/vnc/classes/*
 
 %files help
-%{_mandir}/man1/vncviewer.1*
-%{_mandir}/man1/vncserver.1*
-%{_mandir}/man1/x0vncserver.1*
-%{_mandir}/man1/Xvnc.1*
-%{_mandir}/man1/vncpasswd.1*
-%{_mandir}/man1/vncconfig.1*
+%defattr(-,root,root)
 %doc java/com/tigervnc/vncviewer/README
+%{_mandir}/man1/*
 
 %changelog
+* Tue Dec 24 2019 openEuler Buildteam <buildteam@openeuler.org> - 1.9.0-6
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:add the provides
+
 * Tue Oct 29 2019 openEuler Buildteam <buildteam@openeuler.org> - 1.9.0-5
 - fix missing arguments after systemd_postun
 
