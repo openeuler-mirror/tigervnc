@@ -2,7 +2,7 @@
 
 Name:           tigervnc
 Version:        1.9.0
-Release:        6
+Release:        7
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -191,18 +191,18 @@ mkdir -p %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.conf
 
 %post server
-%systemd_post vncserver.service
-%systemd_post xvnc.service
+%systemd_post vncserver@.service
+%systemd_post xvnc@.service
 %systemd_post xvnc.socket
 
 %preun server
-%systemd_preun vncserver.service
-%systemd_preun xvnc.service
+%systemd_preun vncserver@.service
+%systemd_preun xvnc@.service
 %systemd_preun xvnc.socket
 
 %postun server
-%systemd_postun vncserver.service
-%systemd_postun xvnc.service
+%systemd_postun vncserver@.service
+%systemd_postun xvnc@.service
 %systemd_postun xvnc.socket
 
 %files -f %{name}.lang
@@ -245,6 +245,12 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %{_mandir}/man1/*
 
 %changelog
+* Tue Dec 31 2019 openEuler Buildteam <buildteam@openeuler.org> - 1.9.0-7
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:optimization the spec
+
 * Tue Dec 24 2019 openEuler Buildteam <buildteam@openeuler.org> - 1.9.0-6
 - Type:bugfix
 - ID:NA
