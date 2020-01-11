@@ -1,27 +1,19 @@
 %global _hardened_build 1
 
 Name:           tigervnc
-Version:        1.9.0
-Release:        7
+Version:        1.10.1
+Release:        1
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
 URL:            http://www.tigervnc.com
 
-Source0:        %{name}-%{version}.tar.gz
+Source0:        https://github.com/TigerVNC/tigervnc/archive/%{name}-%{version}.tar.gz
 Source1:        vncserver.service
 Source2:        vncserver.sysconfig
 Source3:        10-libvnc.conf
 Source4:        xvnc.service
 Source5:        xvnc.socket
-
-Patch1:         tigervnc-manpages.patch
-Patch2:         tigervnc-getmaster.patch
-Patch3:         tigervnc-shebang.patch
-Patch4:         tigervnc-xstartup.patch
-Patch5:         tigervnc-utilize-system-crypto-policies.patch
-Patch6:         tigervnc-ignore-buttons-in-mouse-leave-event.patch
-Patch7:         tigervnc-passwd-crash-with-malloc-checks.patch
 
 Patch100:       tigervnc-xserver120.patch
 
@@ -91,31 +83,12 @@ If you want to use web browser in clients, please install this package.
 %setup -q
 
 cp -r /usr/share/xorg-x11-server-source/* unix/xserver
+%patch100 -p1 -b .xserver120-rebased
 pushd unix/xserver
 for all in `find . -type f -perm -001`; do
         chmod -x "$all"
 done
 popd
-
-%patch100 -p1 -b .xserver120-rebased
-# Synchronise manpages and --help output (bug #980870).
-%patch1 -p1 -b .manpages
-
-# libvnc.so: don't use unexported GetMaster function (bug #744881 again).
-%patch2 -p1 -b .getmaster
-
-# Don't use shebang in vncserver script.
-%patch3 -p1 -b .shebang
-
-# Clearer xstartup file (bug #923655).
-%patch4 -p1 -b .xstartup
-
-# Utilize system-wide crypto policies
-%patch5 -p1 -b .utilize-system-crypto-policies
-
-%patch6 -p1 -b .ignore-buttons-in-mouse-leave-event
-
-%patch7 -p1 -b .tigervnc-passwd-crash-with-malloc-checks
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fpic"
@@ -179,7 +152,6 @@ popd
 pushd java
 mkdir -p %{buildroot}%{_datadir}/vnc/classes
 install -m755 VncViewer.jar %{buildroot}%{_datadir}/vnc/classes
-install -m644 com/tigervnc/vncviewer/index.vnc %{buildroot}%{_datadir}/vnc/classes
 popd
 
 %find_lang %{name} %{name}.lang
@@ -245,6 +217,12 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %{_mandir}/man1/*
 
 %changelog
+* Sat Jan 11 2020 openEuler Buildteam <buildteam@openeuler.org> - 1.10.1-1
+- Type:enhancement
+- Id:NA
+- SUG:NA
+- DESC:update version to 1.10.1
+
 * Tue Dec 31 2019 openEuler Buildteam <buildteam@openeuler.org> - 1.9.0-7
 - Type:bugfix
 - ID:NA
