@@ -2,7 +2,7 @@
 
 Name:           tigervnc
 Version:        1.10.1
-Release:        1
+Release:        2
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -38,10 +38,6 @@ you can access any other desktops running a VNC server.
 %package server
 Summary:        A TigerVNC server
 Requires:       perl-interpreter tigervnc-server-minimal xorg-x11-xauth xorg-x11-xinit 
-Requires(post): systemd
-Requires(preun): systemd
-Requires(postun): systemd
-Requires(post): systemd
 
 %description server
 This package provides full installaion of TigerCNC and utilities that
@@ -50,10 +46,6 @@ X session.
 
 %package server-minimal
 Summary:        A minimal installation of TigerVNC server
-Requires(post): systemd
-Requires(preun): systemd
-Requires(postun): systemd
-Requires(post): systemd
 
 Requires:       mesa-dri-drivers, xkeyboard-config, xorg-x11-xkb-utils %{name} 
 
@@ -162,21 +154,6 @@ rm -f  %{buildroot}%{_libdir}/xorg/modules/extensions/libvnc.la
 mkdir -p %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.conf
 
-%post server
-%systemd_post vncserver@.service
-%systemd_post xvnc@.service
-%systemd_post xvnc.socket
-
-%preun server
-%systemd_preun vncserver@.service
-%systemd_preun xvnc@.service
-%systemd_preun xvnc.socket
-
-%postun server
-%systemd_postun vncserver@.service
-%systemd_postun xvnc@.service
-%systemd_postun xvnc.socket
-
 %files -f %{name}.lang
 %defattr(-,root,root)
 %doc README.rst
@@ -185,7 +162,6 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %{_datadir}/applications/*
 %license LICENCE.TXT
 %{_datadir}/icons/hicolor/*/apps/*
-
 
 %files server
 %defattr(-,root,root)
@@ -217,6 +193,12 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %{_mandir}/man1/*
 
 %changelog
+* Wed Feb 26 2020 openEuler Buildteam <buildteam@openeuler.org> - 1.10.1-2
+- Type:bugfix
+- Id:NA
+- SUG:NA
+- DESC:fix misuse of systemd template service in post stage
+
 * Sat Jan 11 2020 openEuler Buildteam <buildteam@openeuler.org> - 1.10.1-1
 - Type:enhancement
 - Id:NA
