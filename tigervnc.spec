@@ -2,7 +2,7 @@
 
 Name:           tigervnc
 Version:        1.10.1
-Release:        2
+Release:        3
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -193,6 +193,12 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %{_mandir}/man1/*
 
 %changelog
+* Fri Aug 21 2020 gaihuiying<gaihuiying1@huawei.com> - 1.10.1-3
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:release +1 for rebuild
+
 * Wed Feb 26 2020 openEuler Buildteam <buildteam@openeuler.org> - 1.10.1-2
 - Type:bugfix
 - Id:NA
