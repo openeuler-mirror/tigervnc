@@ -2,13 +2,13 @@
 
 Name:           tigervnc
 Version:        1.10.1
-Release:        4
+Release:        5
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
 URL:            http://www.tigervnc.com
 
-Source0:        https://github.com/TigerVNC/tigervnc/archive/%{name}-%{version}.tar.gz
+Source0:        https://github.com/TigerVNC/tigervnc/archive/v1.10.1.tar.gz#/%{name}-%{version}.tar.gz
 Source1:        vncserver.service
 Source2:        vncserver.sysconfig
 Source3:        10-libvnc.conf
@@ -196,6 +196,12 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %{_mandir}/man1/*
 
 %changelog
+* Fri Oct 16 2020 lunankun <lunankun@huawei.com> - 1.10.1-5
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:change source0 url
+
 * Mon Sep 21 2020 gaihuiying <gaihuiying1@huawei.com> - 1.10.1-4
 - Type:bugfix
 - ID:NA
