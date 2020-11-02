@@ -2,7 +2,7 @@
 
 Name:           tigervnc
 Version:        1.10.1
-Release:        5
+Release:        6
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -17,6 +17,7 @@ Source5:        xvnc.socket
 
 Patch0:        tigervnc-xserver120.patch
 Patch1:        fix-build-error-with-xorg-server-1.20.8.patch
+Patch2:        CVE-2020-26117.patch
 
 BuildRequires:  gcc-c++ systemd cmake automake autoconf gettext gettext-autopoint pixman-devel fltk-devel >= 1.3.3
 BuildRequires:  libX11-devel libtool libxkbfile-devel libpciaccess-devel libXinerama-devel libXfont2-devel
@@ -78,7 +79,7 @@ If you want to use web browser in clients, please install this package.
 cp -r /usr/share/xorg-x11-server-source/* unix/xserver
 %patch0 -p1 -b .xserver120-rebased
 %patch1 -p1
-
+%patch2 -p1
 pushd unix/xserver
 for all in `find . -type f -perm -001`; do
         chmod -x "$all"
@@ -196,6 +197,12 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %{_mandir}/man1/*
 
 %changelog
+* Mon Nov 02 2020 xihaochen <xihaochen@huawei.com> - 1.10.1-6
+- Type:CVE
+- ID:CVE-2020-26117
+- SUG:NA
+- DESC:fix CVE-2020-26117
+
 * Fri Oct 16 2020 lunankun <lunankun@huawei.com> - 1.10.1-5
 - Type:bugfix
 - ID:NA
