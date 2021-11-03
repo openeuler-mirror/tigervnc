@@ -2,7 +2,7 @@
 
 Name:           tigervnc
 Version:        1.10.1
-Release:        5
+Release:        6
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -30,8 +30,8 @@ Requires(postun):coreutils
 
 Requires:       hicolor-icon-theme 
 
-Provides:  	%{name}-license = %{name}-%{release} %{name}-icons = %{name}-%{release}
-Obsoletes: 	%{name}-license < %{name}-%{release} %{name}-icons < %{name}-%{release}
+Provides:  	%{name}-license = %{version}-%{release} %{name}-icons = %{version}-%{release}
+Obsoletes: 	%{name}-license < %{version}-%{release} %{name}-icons < %{version}-%{release}
 
 %description
 This package provides client for Virtual Network Computing (VNC), with which
@@ -198,6 +198,12 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %{_mandir}/man1/*
 
 %changelog
+* Wed Nov 3 2021 Li Jingwei <lijingwei@uniontech.com> - 1.10.1-6
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:correct provides version typo in spec file
+
 * Thu Oct 29 2020 yanan <yanan@huawei.com> - 1.10.1-5
 - Type:cves
 - ID:NA
