@@ -1,29 +1,30 @@
 %global _hardened_build 1
+%global selinuxtype targeted
+%global modulename vncsession
 
 Name:           tigervnc
-Version:        1.10.1
-Release:        5
+Version:        1.12.0
+Release:        1
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
 URL:            http://github.com/TigerVNC/tigervnc/
 
-Source0:        https://github.com/TigerVNC/tigervnc/archive/v1.10.1.tar.gz
+Source0:        https://github.com/TigerVNC/tigervnc/archive/v1.12.0.tar.gz
 Source1:        vncserver.service
-Source2:        vncserver.sysconfig
+Source2:        vncserver
 Source3:        10-libvnc.conf
 Source4:        xvnc.service
 Source5:        xvnc.socket
+Source6:        HOWTO.md
 
 Patch0001:      tigervnc-xserver120.patch
-Patch0002:      fix-build-error-with-xorg-server-1.20.8.patch
-Patch0003:      CVE-2020-26117.patch
 
 BuildRequires:  gcc-c++ systemd cmake automake autoconf gettext gettext-autopoint pixman-devel fltk-devel >= 1.3.3
 BuildRequires:  libX11-devel libtool libxkbfile-devel libpciaccess-devel libXinerama-devel libXfont2-devel
 BuildRequires:  libXext-devel xorg-x11-server-source libXi-devel libXdmcp-devel libxshmfence-devel
 BuildRequires:  xorg-x11-xtrans-devel xorg-x11-util-macros xorg-x11-server-devel libXtst-devel libdrm-devel libXt-devel
-BuildRequires:  openssl-devel mesa-libGL-devel freetype-devel desktop-file-utils java-devel jpackage-utils pam-devel gnutls-devel libjpeg-turbo-devel
+BuildRequires:  openssl-devel mesa-libGL-devel freetype-devel desktop-file-utils java-devel jpackage-utils pam-devel gnutls-devel libjpeg-turbo-devel selinux-policy-devel
 
 Requires(post): coreutils
 Requires(postun):coreutils
@@ -40,6 +41,7 @@ you can access any other desktops running a VNC server.
 %package server
 Summary:        A TigerVNC server
 Requires:       perl-interpreter tigervnc-server-minimal xorg-x11-xauth xorg-x11-xinit 
+Requires:       (tigervnc-selinux if selinux-policy-%{selinuxtype})
 
 %description server
 This package provides full installaion of TigerCNC and utilities that
@@ -49,7 +51,7 @@ X session.
 %package server-minimal
 Summary:        A minimal installation of TigerVNC server
 
-Requires:       mesa-dri-drivers, xkeyboard-config, xorg-x11-xkb-utils %{name} 
+Requires:       mesa-dri-drivers, xkeyboard-config, %{name}-license xkbcomp
 
 %description server-minimal
 This package provides minimal installation of TigerVNC, with which
@@ -71,6 +73,22 @@ BuildArch:      noarch
 %description server-applet
 If you want to use web browser in clients, please install this package.
 
+%package selinux
+Summary:        SElinux module for TigerVNC
+BuildRequires:  selinux-policy-devel
+Requires:       selinux-policy-targeted
+BuildArch:      noarch
+
+%description selinux
+This package provides the SElinux policy module to ensure Tigervnc runs properly under an environment with SElinux enabled
+
+%package license
+Summary:         License of Tigervnc suite
+BuildArch:      noarch
+
+%description license
+This package contains license of the Tigervnc suite
+
 %package_help
 
 %prep
@@ -78,8 +96,6 @@ If you want to use web browser in clients, please install this package.
 
 cp -r /usr/share/xorg-x11-server-source/* unix/xserver
 %patch0001 -p1 -b .xserver120-rebased
-%patch0002 -p1
-%patch0003 -p1
 
 pushd unix/xserver
 for all in `find . -type f -perm -001`; do
@@ -111,6 +127,11 @@ pushd media
 make
 popd
 
+# SElinux
+pushd unix/vncserver/selinux
+make
+popd
+
 # Build Java applet
 pushd java
 %{cmake} .
@@ -122,18 +143,18 @@ popd
 rm -f %{buildroot}%{_docdir}/%{name}-%{version}/{README.rst,LICENCE.TXT}
 
 pushd unix/xserver/hw/vnc
+%make_install
+popd
+
+pushd unix/vncserver/selinux
 make install DESTDIR=%{buildroot}
 popd
 
 # Install systemd unit file
 mkdir -p %{buildroot}%{_unitdir}
-install -m644 %{SOURCE1} %{buildroot}%{_unitdir}/vncserver@.service
 install -m644 %{SOURCE4} %{buildroot}%{_unitdir}/xvnc@.service
 install -m644 %{SOURCE5} %{buildroot}%{_unitdir}/xvnc.socket
 rm -rf %{buildroot}%{_initrddir}
-
-mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
-install -m644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/vncservers
 
 # Install desktop stuff
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/{16x16,24x24,48x48}/apps
@@ -144,6 +165,7 @@ install -m644 tigervnc_$s.png %{buildroot}%{_datadir}/icons/hicolor/${s}x$s/apps
 done
 popd
 
+install -m 644 %{SOURCE2} %{buildroot}%{_bindir}/vncserver
 
 # Install Java applet
 pushd java
@@ -159,23 +181,30 @@ rm -f  %{buildroot}%{_libdir}/xorg/modules/extensions/libvnc.la
 mkdir -p %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.conf
 
+install -m 644 %{SOURCE6} %{buildroot}%{_docdir}/tigervnc/HOWTO.md
+
+
 %files -f %{name}.lang
 %defattr(-,root,root)
 %doc README.rst
-%license LICENCE.TXT
 %{_bindir}/vncviewer
 %{_datadir}/applications/*
-%license LICENCE.TXT
 %{_datadir}/icons/hicolor/*/apps/*
 
 %files server
 %defattr(-,root,root)
-%config(noreplace) %{_sysconfdir}/sysconfig/vncservers
-%{_bindir}/vncserver
-%{_bindir}/x0vncserver
+%config(noreplace) %{_sysconfdir}/pam.d/tigervnc
+%config(noreplace) %{_sysconfdir}/tigervnc/vncserver-config-defaults
+%config(noreplace) %{_sysconfdir}/tigervnc/vncserver-config-mandatory
+%config(noreplace) %{_sysconfdir}/tigervnc/vncserver.users
 %{_unitdir}/vncserver@.service
 %{_unitdir}/xvnc@.service
 %{_unitdir}/xvnc.socket
+%{_bindir}/vncserver
+%{_bindir}/x0vncserver
+%{_sbindir}/vncsession
+%{_libexecdir}/vncserver
+%{_libexecdir}/vncsession-start
 
 %files server-minimal
 %defattr(-,root,root)
@@ -192,12 +221,27 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %defattr(-,root,root)
 %{_datadir}/vnc/classes/*
 
+%files license
+%{_docdir}/tigervnc/LICENCE.TXT
+
+%files selinux
+%{_datadir}/selinux/packages/%{selinuxtype}/%{modulename}.pp.*
+%ghost %verify(not md5 size mtime) %{_sharedstatedir}/selinux/%{selinuxtype}/active/modules/200/%{modulename}
+
 %files help
 %defattr(-,root,root)
 %doc java/com/tigervnc/vncviewer/README
+%{_docdir}/tigervnc/HOWTO.md
 %{_mandir}/man1/*
+%{_mandir}/man8/*
 
 %changelog
+* Wed Dec 08 2021 quanhongfei <quanhongfei@huawei.com> - 1.12.0-1
+- Type:requirements
+- ID:NA
+- SUG:NA
+- DESC:update tigervnc to 1.12.0
+
 * Thu Oct 29 2020 yanan <yanan@huawei.com> - 1.10.1-5
 - Type:cves
 - ID:NA
