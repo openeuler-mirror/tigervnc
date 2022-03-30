@@ -4,7 +4,7 @@
 
 Name:           tigervnc
 Version:        1.12.0
-Release:        1
+Release:        2
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -59,7 +59,7 @@ other people can access your desktop on your machine.
 
 %package server-module
 Summary:        TigerVNC module to Xorg
-Requires:       xorg-x11-server-Xorg %(xserver-sdk-abi-requires ansic) %(xserver-sdk-abi-requires videodrv) %{name}
+Requires:       xorg-x11-server-Xorg %(xserver-sdk-abi-requires ansic) %(xserver-sdk-abi-requires videodrv) %{name}-license
 
 %description server-module
 This package contains libvnc.so module to X server, allowing others
@@ -236,6 +236,12 @@ install -m 644 %{SOURCE6} %{buildroot}%{_docdir}/tigervnc/HOWTO.md
 %{_mandir}/man8/*
 
 %changelog
+* Wed Mar 30 2022 yanglu <yanglu72@h-partners.com> - 1.12.0-2
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:Modify the installation dependency of tigervnc-server-module
+
 * Wed Mar 23 2022 xinghe <xinghe2@h-partners.com> - 1.12.0-1
 - Type:requirements
 - ID:NA
