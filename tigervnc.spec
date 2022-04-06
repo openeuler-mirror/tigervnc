@@ -4,7 +4,7 @@
 
 Name:           tigervnc
 Version:        1.12.0
-Release:        2
+Release:        3
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -31,8 +31,8 @@ Requires(postun):coreutils
 
 Requires:       hicolor-icon-theme 
 
-Provides:  	%{name}-license = %{version}-%{release} %{name}-icons = %{version}-%{release}
-Obsoletes: 	%{name}-license < %{version}-%{release} %{name}-icons < %{version}-%{release}
+Provides:       %{name}-icons = %{version}-%{release}
+Obsoletes: 	%{name}-icons < %{version}-%{release}
 
 %description
 This package provides client for Virtual Network Computing (VNC), with which
@@ -236,6 +236,12 @@ install -m 644 %{SOURCE6} %{buildroot}%{_docdir}/tigervnc/HOWTO.md
 %{_mandir}/man8/*
 
 %changelog
+* Fri Apr 01 2022 yanglu <yanglu72@h-partners.com> - 1.12.0-3
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:tigervnc dose not provide tigervnc-license
+
 * Wed Mar 30 2022 yanglu <yanglu72@h-partners.com> - 1.12.0-2
 - Type:bugfix
 - ID:NA
