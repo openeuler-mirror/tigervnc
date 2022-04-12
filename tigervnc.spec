@@ -4,7 +4,7 @@
 
 Name:           tigervnc
 Version:        1.12.0
-Release:        4
+Release:        5
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -236,6 +236,12 @@ install -m 644 %{SOURCE6} %{buildroot}%{_docdir}/tigervnc/HOWTO.md
 %{_mandir}/man8/*
 
 %changelog
+* Tue Apr 12 2022 gaihuiying <eaglegai@163.com> - 1.12.0-5
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:fix vncserver unrecognized option rfbwait
+
 * Tue Apr 12 2022 gaihuiying <eaglegai@163.com> - 1.12.0-4
 - Type:bugfix
 - ID:NA
