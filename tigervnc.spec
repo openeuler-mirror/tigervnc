@@ -4,7 +4,7 @@
 
 Name:           tigervnc
 Version:        1.12.0
-Release:        5
+Release:        6
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -19,6 +19,7 @@ Source5:        xvnc.socket
 Source6:        HOWTO.md
 
 Patch0001:      tigervnc-xserver120.patch
+Patch0002:      0001-Fix-some-translations-of-start-menu.patch
 
 BuildRequires:  gcc-c++ systemd cmake automake autoconf gettext gettext-autopoint pixman-devel fltk-devel >= 1.3.3
 BuildRequires:  libX11-devel libtool libxkbfile-devel libpciaccess-devel libXinerama-devel libXfont2-devel
@@ -102,6 +103,7 @@ for all in `find . -type f -perm -001`; do
         chmod -x "$all"
 done
 popd
+%patch0002 -p1
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fpic"
@@ -236,6 +238,12 @@ install -m 644 %{SOURCE6} %{buildroot}%{_docdir}/tigervnc/HOWTO.md
 %{_mandir}/man8/*
 
 %changelog
+* Thu Apr 14 2022 ouyangminxiang <ouyangminxiang@kylinsec.com.cn> - 1.12.0-6
+- Type:translation
+- ID:NA
+- SUG:NA
+- DESC:fix some translation of start menu
+
 * Tue Apr 12 2022 gaihuiying <eaglegai@163.com> - 1.12.0-5
 - Type:bugfix
 - ID:NA
