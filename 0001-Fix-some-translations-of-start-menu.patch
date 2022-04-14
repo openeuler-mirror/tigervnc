@@ -1,0 +1,75 @@
+From 8c41423d0da811043b2b6f7c1d0f01030e9d5a98 Mon Sep 17 00:00:00 2001
+From: longcheng <longcheng@kylinos.com.cn>
+Date: Wed, 16 Mar 2022 19:51:37 +0800
+Subject: [PATCH] Fix some translations of start menu
+
+---
+ po/zh_CN.po | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/po/zh_CN.po b/po/zh_CN.po
+index d22ebb5..7e172a2 100644
+--- a/po/zh_CN.po
++++ b/po/zh_CN.po
+@@ -449,7 +449,7 @@ msgstr "连接信息...(&I)"
+ #: vncviewer/Viewport.cxx:746
+ msgctxt "ContextMenu|"
+ msgid "About &TigerVNC viewer..."
+-msgstr "关于 &TigerVNC 查看器..."
++msgstr "关于 &VNC远程桌面客户端..."
+ 
+ #: vncviewer/Viewport.cxx:749
+ msgctxt "ContextMenu|"
+@@ -566,14 +566,14 @@ msgid ""
+ "Copyright (C) 1999-%d TigerVNC Team and many others (see README.txt)\n"
+ "See http://www.tigervnc.org for information on TigerVNC."
+ msgstr ""
+-"TigerVNC 查看器 %d 位 v%s\n"
++"VNC远程桌面客户端 %d 位 v%s\n"
+ "构建于：%s\n"
+ "版权所有 1999-%d TigerVNC 团队及众多开发者（参见 README.txt）\n"
+ "访问 http://www.tigervnc.org 以获取更多关于 TigerVNC 的信息。"
+ 
+ #: vncviewer/vncviewer.cxx:127
+ msgid "About TigerVNC Viewer"
+-msgstr "关于 TigerVNC 查看器"
++msgstr "关于VNC远程桌面客户端"
+ 
+ #: vncviewer/vncviewer.cxx:140
+ msgid "Internal FLTK error. Exiting."
+@@ -582,7 +582,7 @@ msgstr "FLTK 内部错误。现在将退出。"
+ #: vncviewer/vncviewer.cxx:158 vncviewer/vncviewer.cxx:170
+ #, c-format
+ msgid "Error starting new TigerVNC Viewer: %s"
+-msgstr "启动 TigerVNC 查看器出错：%s"
++msgstr "启动VNC远程桌面客户端：%s"
+ 
+ #: vncviewer/vncviewer.cxx:179
+ #, c-format
+@@ -591,7 +591,7 @@ msgstr "收到终端信号 %d 。TigerVNC 现在将退出。"
+ 
+ #: vncviewer/vncviewer.cxx:271
+ msgid "TigerVNC Viewer"
+-msgstr "TigerVNC 查看器"
++msgstr "VNC远程桌面客户端"
+ 
+ #: vncviewer/vncviewer.cxx:279
+ msgid "No"
+@@ -659,6 +659,14 @@ msgstr "-listen 及 -via 参数不兼容"
+ msgid "Listening on port %d"
+ msgstr "正在监听端口 %d"
+ 
++#: vncviewer/vncviewer.desktop.in.in:4
++msgid "Remote Desktop Viewer"
++msgstr "VNC远程桌面客户端"
++
++#: vncviewer/vncviewer.desktop.in.in:5
++msgid "Connect to VNC server and display remote desktop"
++msgstr "连接到VNC远程服务器并展示远程桌面"
++
+ #~ msgid "Unknown encoding %d"
+ #~ msgstr "未知编码 %d"
+ 
+-- 
+2.27.0
+
