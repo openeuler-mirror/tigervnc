@@ -4,7 +4,7 @@
 
 Name:           tigervnc
 Version:        1.12.0
-Release:        3
+Release:        4
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -165,7 +165,7 @@ install -m644 tigervnc_$s.png %{buildroot}%{_datadir}/icons/hicolor/${s}x$s/apps
 done
 popd
 
-install -m 644 %{SOURCE2} %{buildroot}%{_bindir}/vncserver
+install -m 755 %{SOURCE2} %{buildroot}%{_bindir}/vncserver
 
 # Install Java applet
 pushd java
@@ -236,6 +236,12 @@ install -m 644 %{SOURCE6} %{buildroot}%{_docdir}/tigervnc/HOWTO.md
 %{_mandir}/man8/*
 
 %changelog
+* Tue Apr 12 2022 gaihuiying <eaglegai@163.com> - 1.12.0-4
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:change vncserver permission from 644 to 755
+
 * Fri Feb 11 2022 quanhongfei <quanhongfei@huawei.com> - 1.12.0-3
 - Type:bugfix
 - ID:NA
