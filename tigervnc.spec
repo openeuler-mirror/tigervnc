@@ -4,7 +4,7 @@
 
 Name:           tigervnc
 Version:        1.12.0
-Release:        6
+Release:        7
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -185,6 +185,14 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 
 install -m 644 %{SOURCE6} %{buildroot}%{_docdir}/tigervnc/HOWTO.md
 
+%check
+pushd tests
+make %{?_smp_mflags}
+./unit/conv
+./unit/convertlf
+./unit/hostport
+./unit/pixelformat
+popd
 
 %files -f %{name}.lang
 %defattr(-,root,root)
@@ -238,6 +246,12 @@ install -m 644 %{SOURCE6} %{buildroot}%{_docdir}/tigervnc/HOWTO.md
 %{_mandir}/man8/*
 
 %changelog
+* Sat Jun 11 2022 gaihuiying <eaglegai@163.com> - 1.12.0-7
+- Type:bugfix
+- CVE:NA
+- SUG:NA
+- DESC: enable test
+
 * Thu Apr 14 2022 ouyangminxiang <ouyangminxiang@kylinsec.com.cn> - 1.12.0-6
 - Type:translation
 - ID:NA
