@@ -1,0 +1,28 @@
+From 774c6bcf33b5c9b94c1ff12895775e77c555decc Mon Sep 17 00:00:00 2001
+From: Pierre Ossman <ossman@cendio.se>
+Date: Thu, 9 Feb 2023 11:30:37 +0100
+Subject: [PATCH] Sanity check when cleaning up keymap changes
+
+Make sure we don't send a bogus request to the X server in the (common)
+case that we don't actually have anything to restore.
+
+(cherry picked from commit 1e3484f2017f038dd5149cd50741feaf39a680e4)
+---
+ unix/x0vncserver/XDesktop.cxx | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/unix/x0vncserver/XDesktop.cxx b/unix/x0vncserver/XDesktop.cxx
+index d5c6b2db9..f9c810968 100644
+--- a/unix/x0vncserver/XDesktop.cxx
++++ b/unix/x0vncserver/XDesktop.cxx
+@@ -481,6 +481,10 @@ void XDesktop::deleteAddedKeysyms(Display* dpy) {
+     }
+   }
+
++  // Did we actually find something to remove?
++  if (highestKeyCode < lowestKeyCode)
++    return;
++
+   changes.changed |= XkbKeySymsMask;
+   changes.first_key_sym = lowestKeyCode;
+   changes.num_key_syms = highestKeyCode - lowestKeyCode + 1;
