@@ -3,14 +3,14 @@
 %global modulename vncsession
 
 Name:           tigervnc
-Version:        1.12.0
-Release:        7
+Version:        1.13.0
+Release:        1
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
 URL:            http://github.com/TigerVNC/tigervnc/
 
-Source0:        https://github.com/TigerVNC/tigervnc/archive/v1.12.0.tar.gz
+Source0:        https://github.com/TigerVNC/tigervnc/archive/v1.13.0.tar.gz
 Source1:        vncserver.service
 Source2:        vncserver
 Source3:        10-libvnc.conf
@@ -20,6 +20,7 @@ Source6:        HOWTO.md
 
 Patch0001:      tigervnc-xserver120.patch
 Patch0002:      0001-Fix-some-translations-of-start-menu.patch
+Patch0003:      backport-tigervnc-sanity-check-when-cleaning-up-keymap-changes.patch
 
 BuildRequires:  gcc-c++ systemd cmake automake autoconf gettext gettext-autopoint pixman-devel fltk-devel >= 1.3.3
 BuildRequires:  libX11-devel libtool libxkbfile-devel libpciaccess-devel libXinerama-devel libXfont2-devel
@@ -104,6 +105,7 @@ for all in `find . -type f -perm -001`; do
 done
 popd
 %patch0002 -p1
+%patch0003 -p1
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fpic"
@@ -200,6 +202,7 @@ popd
 %{_bindir}/vncviewer
 %{_datadir}/applications/*
 %{_datadir}/icons/hicolor/*/apps/*
+%{_datadir}/metainfo/org.tigervnc.vncviewer.metainfo.xml
 
 %files server
 %defattr(-,root,root)
@@ -246,6 +249,12 @@ popd
 %{_mandir}/man8/*
 
 %changelog
+* Thu Feb 23 2023 zhouyihang <zhouyihang3@h-partners.com> - 1.13.0-1
+- Type:requirements
+- ID:NA
+- SUG:NA
+- DESC:update tigervnc to 1.13.0
+
 * Sat Jun 11 2022 gaihuiying <eaglegai@163.com> - 1.12.0-7
 - Type:bugfix
 - CVE:NA
