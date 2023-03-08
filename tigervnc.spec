@@ -2,7 +2,7 @@
 
 Name:           tigervnc
 Version:        1.10.1
-Release:        5
+Release:        6
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -159,6 +159,15 @@ rm -f  %{buildroot}%{_libdir}/xorg/modules/extensions/libvnc.la
 mkdir -p %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.conf
 
+%check
+pushd tests
+make %{?_smp_mflags}
+./unit/conv
+./unit/convertlf
+./unit/hostport
+./unit/pixelformat
+popd
+
 %files -f %{name}.lang
 %defattr(-,root,root)
 %doc README.rst
@@ -198,6 +207,12 @@ install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/10-libvnc.c
 %{_mandir}/man1/*
 
 %changelog
+* Wed Mar 08 2023 zhouyihang <zhouyihang3@h-partners.com> - 1.10.1-6
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:enable test
+
 * Mon Nov 02 2020 quanhongfei <quanhongfei@huawei.com> - 1.10.1-5
 - Type:CVE
 - ID:CVE-2020-26117
