@@ -4,7 +4,7 @@
 
 Name:           tigervnc
 Version:        1.12.0
-Release:        7
+Release:        8
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -26,6 +26,7 @@ BuildRequires:  libX11-devel libtool libxkbfile-devel libpciaccess-devel libXine
 BuildRequires:  libXext-devel xorg-x11-server-source libXi-devel libXdmcp-devel libxshmfence-devel
 BuildRequires:  xorg-x11-xtrans-devel xorg-x11-util-macros xorg-x11-server-devel libXtst-devel libdrm-devel libXt-devel
 BuildRequires:  openssl-devel mesa-libGL-devel freetype-devel desktop-file-utils java-devel jpackage-utils pam-devel gnutls-devel libjpeg-turbo-devel selinux-policy-devel
+BuildRequires:  xorg-x11-font-utils
 
 Requires(post): coreutils
 Requires(postun):coreutils
@@ -246,6 +247,9 @@ popd
 %{_mandir}/man8/*
 
 %changelog
+* Thu Mar 09 2023 Lvcongqing <lvcongqing@uniontech.com> - 1.12.0-8
+- add BR xorg-x11-font-utils(fix issue:I6L35B)
+
 * Sat Jun 11 2022 gaihuiying <eaglegai@163.com> - 1.12.0-7
 - Type:bugfix
 - CVE:NA
