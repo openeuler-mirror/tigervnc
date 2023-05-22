@@ -4,7 +4,7 @@
 
 Name:           tigervnc
 Version:        1.13.0
-Release:        2
+Release:        3
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -21,6 +21,7 @@ Source6:        HOWTO.md
 Patch0001:      tigervnc-xserver120.patch
 Patch0002:      0001-Fix-some-translations-of-start-menu.patch
 Patch0003:      backport-tigervnc-sanity-check-when-cleaning-up-keymap-changes.patch
+Patch0004:      fix-clang-build-error.patch
 
 BuildRequires:  gcc-c++ systemd cmake automake autoconf gettext gettext-autopoint pixman-devel fltk-devel >= 1.3.3
 BuildRequires:  libX11-devel libtool libxkbfile-devel libpciaccess-devel libXinerama-devel libXfont2-devel
@@ -107,6 +108,7 @@ done
 popd
 %patch0002 -p1
 %patch0003 -p1
+%patch0004 -p1
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fpic"
@@ -250,6 +252,13 @@ popd
 %{_mandir}/man8/*
 
 %changelog
+* Mon May 22 2023 jammyjellyfish <jammyjellyfish255@outlook.com> - 1.13.0-3
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:fix clang build error
+
+
 * Mon Mar 13 2023 zhouyihang <zhouyihang3@h-partners.com> - 1.13.0-2
 - Type:bugfix
 - ID:NA
