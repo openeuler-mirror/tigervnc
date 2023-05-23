@@ -2,7 +2,7 @@
 
 Name:           tigervnc
 Version:        1.10.1
-Release:        7
+Release:        8
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -208,6 +208,12 @@ popd
 %{_mandir}/man1/*
 
 %changelog
+* Tue May 23 2023 zhouyihang <zhouyihang3@h-partners.com> - 1.10.1-8
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:rebuild for CVE-2023-1393
+
 * Mon Mar 13 2023 zhouyihang <zhouyihang3@h-partners.com> - 1.10.1-7
 - Type:bugfix
 - ID:NA
