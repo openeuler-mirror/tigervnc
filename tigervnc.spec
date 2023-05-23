@@ -4,7 +4,7 @@
 
 Name:           tigervnc
 Version:        1.12.0
-Release:        8
+Release:        9
 Summary:        A TigerVNC remote display system
 
 License:        GPLv2+
@@ -247,6 +247,12 @@ popd
 %{_mandir}/man8/*
 
 %changelog
+* Tue May 23 2023 zhouyihang <zhouyihang3@h-partners.com> - 1.12.0-9
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:rebuild for CVE-2023-1393
+
 * Thu Mar 09 2023 Lvcongqing <lvcongqing@uniontech.com> - 1.12.0-8
 - add BR xorg-x11-font-utils(fix issue:I6L35B)
 
